@@ -9,7 +9,7 @@ there needs to be if invested at 5% return to generate the amount needed.  It do
 expenses, college costs for children if they want and debt that would want paid off if they died.  totals all the assets
 nonqualified and qualified and the present amount of life insurance.  Subtracts need from assets to determine additional
 life insurance needed if any. I added the datetime so prints the date at top of the GUI and the reset button so it will
-restart the program without having to close the GUI and start again. 
+restart the program without having to close the GUI and start again.
 """
 
 import tkinter as tk
@@ -51,6 +51,7 @@ class Calculator(ttk.Frame):
         self.savings = tk.IntVar()
         self.retirement = tk.IntVar()
         self.present_amount = tk.IntVar()
+
 
         ttk.Label(self, text="Total annual income your family needs: ").grid(row=1, column=0, sticky=W)
         ttk.Entry(self, width=10, textvariable=self.income_value).grid(row=1, column=1, sticky=W)
@@ -104,11 +105,9 @@ class Calculator(ttk.Frame):
         data.update({'cap_required': sub_cap_required})
         self.text.insert(tk.INSERT, '\nOther costs include final expenses, $' + str(final_expenses) + ' and debt $' +
             str(debt) + ' totaling $' + str(sub_cap_required))
-
-        def total_cap(self):
-            total_capital = sum(data.values())
-            data.update({'total_capital_required': total_capital})
-            self.text.insert(tk.INSERT, '\nTotal capital required is $' + str(total_capital))
+        total_capital = sum(data.values())
+        data.update({'total_capital_required': total_capital})
+        self.text.insert(tk.INSERT, '\nTotal capital required is $' + str(total_capital))
 
     def assets(self):  # totals all the assets available for family need and subtracts from capital required
         savings = self.savings.get()
@@ -117,15 +116,13 @@ class Calculator(ttk.Frame):
         total_assets = savings + retirement + present_amount
         data.update({'assets': total_assets})
         self.text.insert(tk.INSERT, '\nTotal assets available are $' + str(total_assets))
-
-        def additional(self):
-            t = data.get('total_capital_required')
-            a = data.get('assets')
-            life_insurance = t - a
-            if life_insurance > 0:
-                self.text.insert(tk.INSERT, '\nAdditional life insurance need: $' + str(life_insurance))
-            else:
-                self.text.insert(tk.INSERT, '\nNo additional life insurance needed')
+        t = data.get('total_capital_required')
+        a = data.get('assets')
+        life_insurance = t - a
+        if life_insurance > 0:
+            self.text.insert(tk.INSERT, '\nAdditional life insurance need: $' + str(life_insurance))
+        else:
+            self.text.insert(tk.INSERT, '\nNo additional life insurance needed')
 
     def restart_program(self):
         """Restarts the current program.
